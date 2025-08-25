@@ -27,7 +27,7 @@ public fun main() {
         properties = 0, // Set flags like members, PvP, etc. here
         population = 1337,
         location = 0,
-        host = "10.0.0.31", // Your LAN IP or server host
+        host = "10.0.0.24", // Your LAN IP or server host
         activity = "Local Dev World"
     )
 
@@ -38,7 +38,7 @@ public fun main() {
         properties = 0,
         population = 999,
         location = 0,
-        host = "10.0.0.31",
+        host = "10.0.0.24",
         activity = "Example World"
     )
 
