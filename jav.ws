@@ -54,7 +54,7 @@ param=25=231
 param=5=1
 param=6=0
 param=2=https://payments.jagex.com/
-param=17=http://10.0.0.31:43600/worldlist.ws
+param=17=https://github.com/Auspicious-Rook/rsps/raw/refs/heads/main/world_list.ws
 param=20=https://social.auth.jagex.com/
 param=11=https://auth.jagex.com/
 param=19=196515767263-1oo20deqm6edn7ujlihl6rpadk9drhva.apps.googleusercontent.com
