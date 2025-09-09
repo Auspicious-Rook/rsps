@@ -17,7 +17,7 @@
 11. Set the Gradle version: `./gradlew wrapper --gradle-version 8.11 --distribution-type bin`
 12. I think you need to run this one as well. (not for sure): `gradle wrapper --gradle-version 8.11`
 13. Get and change the name of the JSON file:
-	1. `wget -o xteas.json https://archive.openrs2.org/caches/runescape/2038/keys.json
+	1. `wget -o xteas.json https://archive.openrs2.org/caches/runescape/2038/keys.json`
 	2. `mv keys.json xteas.json`
 14. Make and change to a test directory: `mkdir test && cd test`
 15. Pull down the updated cache files: `wget https://archive.openrs2.org/caches/runescape/2038/disk.zip`
@@ -91,7 +91,7 @@ I use a Windows VM for this next part. You can use your host too. I have yet to 
 On the left file area, browse/expand to this section: `C:\Users\User\IdeaProjects\rsprox\proxy\src\main\kotlin\net\rsprox\proxy\worlds\`
 1. Right click and create a new file named `builder.kt`
 2. Paste the following code. You will need to update the IPs to make it yours:
-	1. ```kotlin
+```kotlin
 package tools
 
 import io.netty.buffer.ByteBufAllocator
@@ -150,7 +150,7 @@ public fun main() {
     println("✅ Successfully wrote world_list.ws with ${worldList.size} world(s).")
 }  
 	   
-	   ```
+ ```
 3.  This script will output a `world_list.ws` file in the working directory: `C:\Users\User\IdeaProjects\rsprox\world_list.ws`
 4. Save this world list and host is publicly. I used github for mine.
 
@@ -239,7 +239,7 @@ param=10=5
 
 1. Now we need to tell the proxy where to go. Add a new file named `proxy-targets.yaml` at the user directory `C:\Users\User\.rsprox`
 2. Paste the following info into the file. Be sure to update the modulus to your new server build and change the config link to where the config URL is hosted:
-    ```yaml
+```yaml
     config:
   - name: Alter
     jav_config_url: https://github.com/Auspicious-Rook/rsps/raw/refs/heads/main/jav.ws
@@ -248,7 +248,7 @@ param=10=5
     modulus: b18779e8230af435c878a3e3f0a8601153646830b5c2c6c15c31275b95c616b841545e54836768ab3fc4bb19a0f939cbd32f88c7c2e108b517cd561577a9cb61f9d6b3de88401e94ec2b3da78b463bf6fdae583b67d6520bdbe7421864836f60ee2e76aa056c797375dc39995a11b21673bc7ae7037bde9d8499287526ab2811
     runelite_bootstrap_commithash: 6e7c6956aa4d9f4c30349182f57ccd86d63ae57d
     runelite_gamepack_url: https://github.com/runetech/osrs-gamepacks/raw/refs/heads/master/gamepacks/osrs-228.jar
-    ```
+```
 
 ### Game time!!!
 1. Alright, now we are cookin. TIme to login for real.
