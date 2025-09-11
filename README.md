@@ -1,7 +1,26 @@
 # Building the server
-## Debian LXC in Proxmox
 
-### Walkthrough
+## The Easy Way...
+I use [Pelican](https://pelican.dev) to launch my servers. I was nice enough to create a [custom egg](https://github.com/Auspicious-Rook/rsps/raw/refs/heads/main/egg-alter-rsps-228.json) that builds and launches the server for you without much involvement. I won't dive into the intricencies of Pelican/Pterodactyl, but if you use these or plan to use them to host your game servers, I have done all the work for you. Take the egg from this repo, import it, and launch it.
+
+Some quick tips. 
+* The linked egg is for revision 228 of OSRS. You can change that by modifying the variables.
+* There is a Github URL variable. USE IT. Right now it is pointed to the standard Github Alter, but I know you probably have some custom mods you want to load in.
+* Editing the files are a breeze. Just go to the server and click on files. All your source code is right there. 
+* I don't claim this is the best way or most efficient way to run this server, but it is quick and easy and fits my hosting style. I generally test in my VM and then push to my main server after the gremlins are stomped out
+
+* Final note: I only tested this in Pelican with the current version of Alter. I cannot guarantee it will work with your own fork or with Pterodactyl.
+
+Be sure to skip The Manual Way section and go to the client building section where I show you how to host this externally for your friends.
+
+
+## The Manual Way
+
+### Debian LXC in Proxmox
+
+I see you prefer things old fashioned. Well here you go..
+
+#### Walkthrough
 1. Start your Linux LXC/Host/VM.
 2. Save your IP for later: `ip a`
 3. Update and add the following tools: 
@@ -73,9 +92,9 @@ cd ..
 nano data/saves/details/{{ACCOUNT_NAME_HERE}}
 ```
 
-## Building the client for external hosting
+# Building the client for external hosting
 
-### Creating the world File
+## Creating the world File
 
 Things get fun here. In order to host externally, you need a file to point the client to the right IP. This has to be made manually as far as I am aware so buckle up for an adventure.
 
