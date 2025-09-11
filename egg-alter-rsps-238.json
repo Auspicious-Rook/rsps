@@ -1,0 +1,61 @@
+{
+  "meta": {
+    "version": "PLCN_v2",
+    "update_url": null
+  },
+  "name": "OSRS Alter Server",
+  "author": "auspicious rook",
+  "description": "A Pelican Panel egg for the Alter OSRS private server. It automatically downloads and builds the server, and retrieves the game cache and xteas keys.",
+  "tags": [],
+  "features": [],
+  "docker_images": {
+    "Debian": "ghcr.io/pterodactyl/yolks:debian"
+  },
+  "file_denylist": [],
+  "startup": "bash start.sh\n\n\n\n",
+  "config": {
+    "files": "{}",
+    "startup": "{\n    \"done\": \"Now listening for incoming connections\"\n}",
+    "logs": "{}",
+    "stop": "^C"
+  },
+  "scripts": {
+    "installation": {
+      "script": "#!/bin/bash\r\n\r\n# Ensure we are in the standard server directory\r\ncd /mnt/server\r\n\r\n# Install required dependencies\r\napt update -y\r\napt install -y git curl unzip zip\r\n\r\n# Clone the AlterRSPS repository directly into the server directory\r\ngit clone ${ALTER_GITHUB}\r\n\r\n# Navigate into the project directory\r\ncd Alter\r\n\r\n# Install SDKMAN, Java 21, and Gradle 8.11 into the /home/container directory\r\nexport SDKMAN_DIR=\"/home/container/.sdkman\"\r\ncurl -s \"https://get.sdkman.io\" | bash\r\nsource \"/home/container/.sdkman/bin/sdkman-init.sh\"\r\nsdk install java 21.0.7-tem\r\nsdk install gradle 8.11\r\n\r\n# Fix: Remove the old cache directory to prevent file move errors\r\nrm -rf data/cache/\r\n\r\n# Download game cache and xteas keys\r\ncd data\r\ncurl -o xteas.json ${KEY_URL}\r\n\r\nmkdir -p test && cd test\r\ncurl -o disk.zip ${CACHE_URL}\r\nunzip disk.zip\r\n\r\nmv cache ../\r\n\r\n# Navigate back to the main Alter directory to continue\r\ncd ../..\r\n\r\n# Clean up temporary files\r\nrm -rf data/test/\r\n\r\n# Build the game server\r\ngradle wrapper --gradle-version 8.11\r\n./gradlew wrapper --gradle-version 8.11 --distribution-type bin\r\n./gradlew :game-server:install\r\n\r\n# Create a dedicated startup script in a permanent location\r\n# The container's home directory is more likely to be persistent\r\necho '#!/bin/bash' > /mnt/server/start.sh\r\necho 'export SDKMAN_DIR=\"/home/container/.sdkman\"' >> /mnt/server/start.sh\r\necho 'if [ ! -d \"${SDKMAN_DIR}\" ]; then' >> /mnt/server/start.sh\r\necho 'echo \"Installing SDKMAN...\"' >> /mnt/server/start.sh\r\necho 'bash -c \"curl -s \"https://get.sdkman.io\" | bash\"' >> /mnt/server/start.sh\r\necho 'source \"${SDKMAN_DIR}/bin/sdkman-init.sh\"' >> /mnt/server/start.sh\r\necho 'echo \"Installing Java and Gradle...\"' >> /mnt/server/start.sh\r\necho 'fi' >> /mnt/server/start.sh\r\necho 'sdk install java 21.0.7-tem' >> /mnt/server/start.sh\r\necho 'sdk install gradle 8.11' >> /mnt/server/start.sh\r\necho 'cd Alter' >> /mnt/server/start.sh\r\necho 'export JAVA_HOME=\"${SDKMAN_DIR}/candidates/java/current\"' >> /mnt/server/start.sh\r\necho 'gradle wrapper --gradle-version 8.11' >> /mnt/server/start.sh\r\necho './gradlew :game-server:run' >> /mnt/server/start.sh\r\n\r\n# Make the startup script executable\r\nchmod +x /mnt/server/start.sh",
+      "container": "ghcr.io/pelican-eggs/installers:debian",
+      "entrypoint": "bash"
+    }
+  },
+  "variables": [
+    {
+      "name": "Alter Github",
+      "description": "Link to where to pull Alter from",
+      "env_variable": "ALTER_GITHUB",
+      "default_value": "https://github.com/AlterRSPS/Alter.git",
+      "user_viewable": false,
+      "user_editable": false,
+      "rules": [],
+      "sort": 3
+    },
+    {
+      "name": "Cache URL",
+      "description": "",
+      "env_variable": "CACHE_URL",
+      "default_value": "https://archive.openrs2.org/caches/runescape/2038/disk.zip",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": [],
+      "sort": 1
+    },
+    {
+      "name": "Keys URL",
+      "description": "",
+      "env_variable": "KEY_URL",
+      "default_value": "https://archive.openrs2.org/caches/runescape/2038/keys.json",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": [],
+      "sort": 2
+    }
+  ]
+}
